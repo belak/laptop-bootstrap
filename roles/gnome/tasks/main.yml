@@ -1,0 +1,21 @@
+- name: install gnome packages
+  package: name={{ item }} state=present
+  with_items:
+    - gnome
+    - gnome-tweak-tool
+    - arc-gtk-theme
+    - xf86-video-intel
+    - xf86-input-libinput
+
+# TODO: Enable gdm, NetworkManager, etc
+
+- name: install gnome aur packages
+  command: pacaur -S --noconfirm {{ item.pkg }}
+  args:
+    creates: '{{ item.file }}'
+  become_user: ansible-build
+  with_items:
+    - pkg: google-chrome
+      file: /usr/bin/google-chrome-stable
+    - pkg: paper-icon-theme
+      file: /usr/share/icons/Paper

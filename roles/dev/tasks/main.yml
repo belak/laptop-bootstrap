@@ -1,0 +1,80 @@
+- name: install C/C++ tools
+  package: name={{ item }} state=present
+  with_items:
+    - base-devel
+    - clang
+    - cmake
+    - gdb
+    - lldb
+    - valgrind
+
+- name: install useful libraries
+  package: name={{ item }} state=present
+  with_items:
+    - allegro
+    - box2d
+
+- name: install useful libraries from aur
+  command: pacaur -S --noconfirm {{ item.pkg }}
+  args:
+    creates: /usr/lib/{{ item.lib }}
+  become_user: ansible-build
+  with_items:
+    - pkg: chipmunk
+      lib: libchipmunk.so
+
+- name: install go
+  package: name={{ item }} state=present
+  with_items:
+    - go
+
+- name: install go tools
+  command: go get -u github.com/{{ item.path }}
+  args:
+    creates: /home/belak/go/bin/{{ item.bin }}
+  become_user: belak
+  with_items:
+    - path: nsf/gocode
+      bin: gocode
+    - path: alecthomas/gometalinter
+      bin: gometalinter
+
+- name: install gometalinter tools
+  command: /home/belak/go/bin/gometalinter --install
+  become_user: belak
+  args:
+    creates: /home/belak/go/bin/gocyclo
+
+- name: install rust
+  package: name={{ item }} state=present
+  with_items:
+    - rust
+    - rust-racer
+    - cargo
+
+- name: install python
+  package: name={{ item }} state=present
+  with_items:
+    # NOTE: In arch, the python package is python3 and even though pacman can
+    # resolve python3 to python properly, ansible can't. Because of this we use
+    # the name python even though it's less descriptive.
+    - python
+    - python2
+    - python-virtualenvwrapper
+
+- name: install arm tools
+  package: name={{ item }} state=present
+  with_items:
+    - arm-none-eabi-binutils
+    - arm-none-eabi-gcc
+    - avr-binutils
+    - avr-gcc
+    - avr-libc
+
+- name: install arm tools from aur
+  command: pacaur -S --noconfirm {{ item }}
+  args:
+    creates: /usr/bin/{{ item }}
+  become_user: ansible-build
+  with_items:
+    - hid_listen

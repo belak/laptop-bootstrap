@@ -1,0 +1,42 @@
+- name: create belak user
+  user:
+    name: belak
+    groups:
+      - users
+      - wheel
+
+- name: clone dotfiles
+  git:
+    repo: https://github.com/belak/dotfiles
+    dest: /home/belak/.dotfiles
+  become_user: belak
+
+- name: install dotfiles
+  shell: RCRC=/home/belak/.dotfiles/rcrc rcup
+  args:
+    creates: /home/belak/.zshrc
+  become_user: belak
+
+- name: update user shell
+  user:
+    name: belak
+    shell: /usr/bin/zsh
+
+- name: clone projects
+  git:
+    repo: https://github.com/{{ item.repo }}
+    dest: /home/belak/{{ item.dest }}
+    recursive: yes
+  become_user: belak
+  with_items:
+    - repo: belak/base16-emacs
+      dest: .emacs.d/site-lisp/base16-theme
+    - repo: belak/go-seabird
+      dest: go/src/github.com/belak/go-seabird
+    - repo: belak/go-seabird-uno
+      dest: go/src/github.com/belak/go-seabird-uno
+    - repo: go-irc/irc
+      dest: go/src/github.com/go-irc/irc
+    - repo: qmk/qmk_firmware
+      dest: Code/qmk
+

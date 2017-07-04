@@ -1,0 +1,54 @@
+- name: install common packages
+  package: name={{ item }} state=present
+  with_items:
+    - emacs
+    - git
+    - htop
+    - openssh
+    - tmux
+    - vim
+    - zsh
+
+- name: create build user
+  user:
+    name: ansible-build
+    system: yes
+    home: /opt/ansible-build
+
+- name: update sudoers file
+  lineinfile:
+    path: /etc/sudoers
+    line: '{{ item }}'
+  with_items:
+    - 'ansible-build ALL=(ALL) NOPASSWD: ALL'
+    - '%wheel ALL=(ALL) ALL'
+
+- name: clone aur packages
+  git:
+    repo: https://aur.archlinux.org/{{ item }}
+    dest: /opt/ansible-build/aur/{{ item }}
+  become_user: ansible-build
+  with_items:
+    - cower
+    - pacaur
+
+- name: install cower
+  command: makepkg -si --skippgpcheck --noconfirm
+  args:
+    creates: /usr/bin/cower
+    chdir: /opt/ansible-build/aur/cower
+  become_user: ansible-build
+
+- name: install pacaur
+  command: makepkg -si --skippgpcheck --noconfirm
+  args:
+    creates: /usr/bin/pacaur
+    chdir: /opt/ansible-build/aur/pacaur
+  become_user: ansible-build
+
+- name: install rcm
+  command: pacaur -S --noconfirm rcm
+  args:
+    creates: /usr/bin/rcup
+  become_user: ansible-build
+
