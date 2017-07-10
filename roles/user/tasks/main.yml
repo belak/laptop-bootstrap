@@ -32,6 +32,8 @@
   with_items:
     - repo: belak/base16-emacs
       dest: .emacs.d/site-lisp/base16-theme
+    - repo: belak/go-cbarchive
+      dest: go/src/github.com/belak/go-cbarchive
     - repo: belak/go-seabird
       dest: go/src/github.com/belak/go-seabird
     - repo: belak/go-seabird-uno
@@ -40,4 +42,3 @@
       dest: go/src/github.com/go-irc/irc
     - repo: qmk/qmk_firmware
       dest: Code/qmk
-
