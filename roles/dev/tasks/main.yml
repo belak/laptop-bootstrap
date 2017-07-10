@@ -6,57 +6,6 @@
   package: name={{ item }} state=present
   with_items: '{{ python_packages }}'
 
-- name: download go tarball
-  get_url:
-    url: 'https://storage.googleapis.com/golang/{{ go_tarball }}'
-    dest: /usr/local/src/{{ go_tarball }}
-    checksum: '{{ go_tarball_checksum }}'
-
-- name: create go {{ go_version }} dir
-  file:
-    dest: /opt/go{{ go_version }}
-    state: directory
-
-- name: extract go tarball
-  unarchive:
-    src: /usr/local/src/{{ go_tarball }}
-    dest: /opt/go{{ go_version }}
-    creates: /opt/go{{ go_version }}/go
-    copy: no
-
-- name: update go dir symlink
-  file:
-    src: /opt/go{{ go_version }}/go
-    dest: /usr/local/go
-    state: link
-
-- name: symlink go binaries
-  file:
-    src: /usr/local/go/bin/{{ item }}
-    dest: /usr/local/bin/{{ item }}
-    state: link
-  with_items:
-    - go
-    - godoc
-    - gofmt
-
-- name: install go tools
-  command: go get -u github.com/{{ item.path }}
-  args:
-    creates: /home/belak/go/bin/{{ item.bin }}
-  become_user: belak
-  with_items:
-    - path: nsf/gocode
-      bin: gocode
-    - path: alecthomas/gometalinter
-      bin: gometalinter
-
-- name: install gometalinter tools
-  command: /home/belak/go/bin/gometalinter --install
-  become_user: belak
-  args:
-    creates: /home/belak/go/bin/gocyclo
-
 # TODO: Need to install racer on Ubuntu
 - name: install rust
   package: name={{ item }} state=present
