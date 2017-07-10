@@ -28,6 +28,7 @@
     repo: https://github.com/{{ item.repo }}
     dest: /home/belak/{{ item.dest }}
     recursive: yes
+    update: no
   become_user: belak
   with_items:
     - repo: belak/base16-emacs

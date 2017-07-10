@@ -42,6 +42,8 @@
       bin: gocode
     - path: alecthomas/gometalinter
       bin: gometalinter
+    - path: golang.org/x/tools/cmd/goimports
+      bin: goimports
 
 - name: install gometalinter tools
   command: /home/belak/go/bin/gometalinter --install
