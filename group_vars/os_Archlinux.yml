@@ -8,6 +8,7 @@ arm_packages:
   - avr-libc
 
 dev_packages:
+  - ag
   - base-devel
   - clang
   - cmake

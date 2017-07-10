@@ -12,6 +12,7 @@ dev_packages:
   - cmake
   - gdb
   - lldb
+  - silversearcher-ag
   - valgrind
   - liballegro5-dev
   - libbox2d-dev
