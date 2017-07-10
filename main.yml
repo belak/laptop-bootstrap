@@ -1,6 +1,10 @@
 - hosts: all
+  tasks:
+   - group_by: key=os_{{ ansible_distribution }}
+
+- hosts: all
   roles:
     - common
     - user
-    - gnome
+    #- gnome
     - dev

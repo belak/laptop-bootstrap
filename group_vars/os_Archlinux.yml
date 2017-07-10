@@ -1,0 +1,32 @@
+sudo_group: wheel
+
+arm_packages:
+  - arm-none-eabi-binutils
+  - arm-none-eabi-gcc
+  - avr-binutils
+  - avr-gcc
+  - avr-libc
+
+dev_packages:
+  - base-devel
+  - clang
+  - cmake
+  - gdb
+  - lldb
+  - valgrind
+  - allegro
+  - box2d
+
+python_packages:
+  - python
+  - python2
+  - python-virtualenvwrapper
+
+rust_packages:
+  - rust
+  - rust-racer
+  - cargo
+
+packages:
+  openssh: openssh
+  vim: gvim

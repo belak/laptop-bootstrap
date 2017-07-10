@@ -4,9 +4,9 @@
     - emacs
     - git
     - htop
-    - openssh
+    - '{{ packages.openssh }}'
     - tmux
-    - vim
+    - '{{ packages.vim }}'
     - zsh
 
 - name: create build user
@@ -18,37 +18,17 @@
 - name: update sudoers file
   lineinfile:
     path: /etc/sudoers
-    line: '{{ item }}'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
   with_items:
-    - 'ansible-build ALL=(ALL) NOPASSWD: ALL'
-    - '%wheel ALL=(ALL) ALL'
+    - regexp: '^ansible-build\s+ALL='
+      line: 'ansible-build ALL=(ALL) NOPASSWD: ALL'
+    - regexp: '^%{{ sudo_group }}\s+ALL='
+      line: '%{{ sudo_group }} ALL=(ALL:ALL) ALL'
 
-- name: clone aur packages
-  git:
-    repo: https://aur.archlinux.org/{{ item }}
-    dest: /opt/ansible-build/aur/{{ item }}
-  become_user: ansible-build
-  with_items:
-    - cower
-    - pacaur
+- include: arch.yml
+  when: ansible_distribution=="Archlinux"
 
-- name: install cower
-  command: makepkg -si --skippgpcheck --noconfirm
-  args:
-    creates: /usr/bin/cower
-    chdir: /opt/ansible-build/aur/cower
-  become_user: ansible-build
-
-- name: install pacaur
-  command: makepkg -si --skippgpcheck --noconfirm
-  args:
-    creates: /usr/bin/pacaur
-    chdir: /opt/ansible-build/aur/pacaur
-  become_user: ansible-build
-
-- name: install rcm
-  command: pacaur -S --noconfirm rcm
-  args:
-    creates: /usr/bin/rcup
-  become_user: ansible-build
+- include: ubuntu.yml
+  when: ansible_distribution=="Ubuntu"
 

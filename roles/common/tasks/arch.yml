@@ -1,0 +1,29 @@
+- name: clone aur packages
+  git:
+    repo: https://aur.archlinux.org/{{ item }}
+    dest: /opt/ansible-build/aur/{{ item }}
+  become_user: ansible-build
+  with_items:
+    - cower
+    - pacaur
+
+- name: install cower
+  command: makepkg -si --skippgpcheck --noconfirm
+  args:
+    creates: /usr/bin/cower
+    chdir: /opt/ansible-build/aur/cower
+  become_user: ansible-build
+
+- name: install pacaur
+  command: makepkg -si --skippgpcheck --noconfirm
+  args:
+    creates: /usr/bin/pacaur
+    chdir: /opt/ansible-build/aur/pacaur
+  become_user: ansible-build
+
+- name: install rcm
+  command: pacaur -S --noconfirm rcm
+  args:
+    creates: /usr/bin/rcup
+  become_user: ansible-build
+

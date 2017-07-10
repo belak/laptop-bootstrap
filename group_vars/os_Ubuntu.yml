@@ -1,0 +1,31 @@
+sudo_group: sudo
+
+arm_packages:
+  - binutils-arm-none-eabi
+  - gcc-arm-none-eabi 
+  - avr-libc
+  - gcc-avr
+
+dev_packages:
+  - build-essential
+  - clang
+  - cmake
+  - gdb
+  - lldb
+  - valgrind
+  - liballegro5-dev
+  - libbox2d-dev
+  - chipmunk-dev
+
+python_packages:
+  - python
+  - python3
+  - virtualenvwrapper
+
+rust_packages:
+  - rustc
+  - cargo
+
+packages:
+  openssh: openssh-client
+  vim: vim-gtk3

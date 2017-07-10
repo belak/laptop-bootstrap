@@ -1,9 +1,10 @@
+# TODO: add password hash
 - name: create belak user
   user:
     name: belak
     groups:
       - users
-      - wheel
+      - '{{ sudo_group }}'
 
 - name: clone dotfiles
   git:

@@ -1,0 +1,15 @@
+- name: add thoughtbot gpg key
+  apt_key: url=https://apt.thoughtbot.com/thoughtbot.gpg.key
+
+- apt_repository:
+    repo: deb http://apt.thoughtbot.com/debian/ stable main
+    state: present
+    filename: thoughtbot
+
+- name: install rcm
+  package: name=rcm state=present
+
+#- apt_repository:
+#    repo: deb http://dl.google.com/linux/chrome/deb/ stable main
+#    state: present
+#    filename: 'google-chrome'

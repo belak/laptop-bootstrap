@@ -1,0 +1,16 @@
+- name: install arm tools from aur
+  command: pacaur -S --noconfirm {{ item }}
+  args:
+    creates: /usr/bin/{{ item }}
+  become_user: ansible-build
+  with_items:
+    - hid_listen
+
+- name: install useful libraries from aur
+  command: pacaur -S --noconfirm {{ item.pkg }}
+  args:
+    creates: /usr/lib/{{ item.lib }}
+  become_user: ansible-build
+  with_items:
+    - pkg: chipmunk
+      lib: libchipmunk.so
