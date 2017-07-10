@@ -6,6 +6,6 @@
   roles:
     - common
     - user
-    #- gnome
+    - gnome
     - dev
     - go

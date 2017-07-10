@@ -1,11 +1,20 @@
+- name: add google repo key
+  apt_key: url=https://dl.google.com/linux/linux_signing_key.pub
+
+- name: add repositories
+  apt_repository:
+    repo: '{{ item.repo }}'
+    filename: '{{ item.file }}'
+  with_items:
+    - repo: 'deb https://dl.google.com/linux/chrome/deb/ stable main'
+      file: 'google-chrome'
+    - repo: 'ppa:snwh/pulp'
+      file: 'snwh'
+  when: ansible_distribution=="Ubuntu"
+
 - name: install gnome packages
   package: name={{ item }} state=present
-  with_items:
-    - gnome
-    - gnome-tweak-tool
-    - arc-gtk-theme
-    - xf86-video-intel
-    - xf86-input-libinput
+  with_items: '{{ gnome_packages }}'
 
 # TODO: Enable gdm, NetworkManager, etc
 
@@ -19,3 +28,4 @@
       file: /usr/bin/google-chrome-stable
     - pkg: paper-icon-theme
       file: /usr/share/icons/Paper
+  when: ansible_distribution=="Archlinux"

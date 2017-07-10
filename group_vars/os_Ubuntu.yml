@@ -17,6 +17,12 @@ dev_packages:
   - libbox2d-dev
   - chipmunk-dev
 
+gnome_packages:
+  - arc-theme
+  - gnome-tweak-tool
+  - paper-icon-theme
+  - google-chrome-stable
+
 python_packages:
   - python
   - python3

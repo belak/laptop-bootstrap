@@ -17,6 +17,13 @@ dev_packages:
   - allegro
   - box2d
 
+gnome_packages:
+  - gnome
+  - gnome-tweak-tool
+  - arc-gtk-theme
+  - xf86-video-intel
+  - xf86-input-libinput
+
 python_packages:
   - python
   - python2
