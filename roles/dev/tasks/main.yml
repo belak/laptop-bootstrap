@@ -1,6 +1,15 @@
 - name: install dev packages
   package: name={{ item }} state=present
-  with_items: '{{ dev_packages }}'  
+  with_items: '{{ dev_packages }}'
+
+- name: install docker
+  package: name=docker state=present
+
+- name: enable and start docker
+  service: name=docker state=started enabled=yes
+
+- name: add user to docker group
+  user: name=belak append=yes groups=docker
 
 - name: install python packages
   package: name={{ item }} state=present

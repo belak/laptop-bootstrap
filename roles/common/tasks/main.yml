@@ -5,6 +5,7 @@
     - git
     - htop
     - '{{ packages.openssh }}'
+    - the_silver_searcher
     - tmux
     - '{{ packages.vim }}'
     - zsh

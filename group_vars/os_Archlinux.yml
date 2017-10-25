@@ -24,6 +24,7 @@ gnome_packages:
   - arc-gtk-theme
   - xf86-video-intel
   - xf86-input-libinput
+  - xsel
 
 python_packages:
   - python
